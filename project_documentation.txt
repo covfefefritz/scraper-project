@@ -23,7 +23,9 @@ Data Cleaning
     - Included functionality to remove HTML tags and entities, normalize text, and handle missing values.
   - Modified the script to accept input filenames as command-line arguments, improving automation and flexibility.
 
-- **Sentiment Analysis**:
+Sentiment Analysis:
   - Integrated NLTK's SentimentIntensityAnalyzer into the cleaning pipeline to assess sentiment of the collected articles.
   - Laid the groundwork for analysis of the tokenized articles
 
+Jupyter Notebook
+  - Created for initial data analysis before starting to work with visualization tools like Dash
