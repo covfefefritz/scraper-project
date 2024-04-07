@@ -1,16 +1,19 @@
 import scrapy
 import json
 from fin_scraper.items import FinScraperItem
+from datetime import date
 
 class NewsSpider(scrapy.Spider):
     name = "news"
-    start_urls = ['https://www.zerohedge.com/', 
+    start_urls = [
+                  'https://www.zerohedge.com/', 
                   'https://www.cnbc.com/world/',
                   'https://www.cnbc.com/personal-finance/',
                   'https://www.cnbc.com/investing/',
                   'https://www.cnbc.com/economy/',
                   'https://www.cnbc.com/finance/',
-                  'https://www.ft.com/']
+                  'https://www.ft.com/'
+                  ]
 
     def parse(self, response):
         if 'zerohedge.com' in response.url:
@@ -55,6 +58,7 @@ class NewsSpider(scrapy.Spider):
         # For example, to yield the article text as part of a Scrapy item:
         item = FinScraperItem()
         item['article_text'] = article_text
+        item['collection_date'] = date.today()
         yield item
 
     def parse_cnbc(self, response):
@@ -63,7 +67,8 @@ class NewsSpider(scrapy.Spider):
         
         # Select all the paragraph tags within the article body div
         paragraphs = response.css('div.ArticleBody-articleBody p')
-        
+        title = response.css('h1.ArticleHeader-headline::text').get()
+
         # Loop through the paragraphs and concatenate their text to the article_text string
         for p in paragraphs:
             # Extract the text from each paragraph, stripping leading/trailing whitespace
@@ -74,6 +79,8 @@ class NewsSpider(scrapy.Spider):
         # For example, to yield the article text as part of a Scrapy item:
         item = FinScraperItem()
         item['article_text'] = article_text
+        item['title'] = title
+        item['collection_date'] = date.today()
         yield item
 
 
@@ -89,7 +96,7 @@ class NewsSpider(scrapy.Spider):
             item = FinScraperItem()
             item['title'] = article_data.get('title')
             item['author'] = article_data.get('author')
-            item['publication_date'] = article_data.get('publication_date')
+            item['collection_date'] = date.today()
 
             # Ensure you use the correct key for the article text
             article_text_key = 'body'  # Replace with the actual key if different

@@ -1,0 +1,29 @@
+
+###### 2024-04-06
+Installed Scrapy and created a new Scrapy project
+
+Defined the data structure in items.py for scraped articles.
+Built a spider to crawl and extract data from financial news articles.
+Wrote selectors to target specific elements on web pages for scraping.
+
+This required some debugging and troubleshooting:
+    HTML structure differ between sites, some make it more difficult than others to create the Scrapy selectors 
+
+Generalize Spider:
+    Implemented logic to distinguish between different news sites in the spider's parse method.
+    Parsing functions tailored for specific news sites (parse_zerohedge, parse_cnbc, etc.).
+
+
+###### 2024-04-07
+Data Collection and Scraping:
+  - Implemented dynamic naming for output files based on the crawl date to organize collected data over time.
+
+Data Cleaning
+  - Developed a `cleaner.py` script to preprocess the scraped data using the pandas library
+    - Included functionality to remove HTML tags and entities, normalize text, and handle missing values.
+  - Modified the script to accept input filenames as command-line arguments, improving automation and flexibility.
+
+- **Sentiment Analysis**:
+  - Integrated NLTK's SentimentIntensityAnalyzer into the cleaning pipeline to assess sentiment of the collected articles.
+  - Laid the groundwork for analysis of the tokenized articles
+

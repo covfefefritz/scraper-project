@@ -9,6 +9,6 @@ import scrapy
 class FinScraperItem(scrapy.Item):
     title = scrapy.Field()
     author = scrapy.Field()
-    publication_date = scrapy.Field()
+    collection_date = scrapy.Field()
     article_text = scrapy.Field()
     publication = scrapy.Field()
