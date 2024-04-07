@@ -59,6 +59,7 @@ class NewsSpider(scrapy.Spider):
         item = FinScraperItem()
         item['article_text'] = article_text
         item['collection_date'] = date.today()
+        item['publication'] = 'Financial Times'
         yield item
 
     def parse_cnbc(self, response):
@@ -81,6 +82,7 @@ class NewsSpider(scrapy.Spider):
         item['article_text'] = article_text
         item['title'] = title
         item['collection_date'] = date.today()
+        item['publication'] = 'CNBC'
         yield item
 
 
@@ -97,6 +99,7 @@ class NewsSpider(scrapy.Spider):
             item['title'] = article_data.get('title')
             item['author'] = article_data.get('author')
             item['collection_date'] = date.today()
+            item['publication'] = 'Zerohedge'
 
             # Ensure you use the correct key for the article text
             article_text_key = 'body'  # Replace with the actual key if different

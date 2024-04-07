@@ -1,11 +1,16 @@
 import sys
 import pandas as pd
 from nltk.sentiment import SentimentIntensityAnalyzer
-from nltk.tokenize import word_tokenize
 from nltk import pos_tag, ne_chunk
 from nltk.tree import Tree
-from nltk.corpus import stopwords
 import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+
+
+lemmatizer = WordNetLemmatizer()
 
 
 def analyze_text(text):
@@ -14,12 +19,28 @@ def analyze_text(text):
     score = sia.polarity_scores(text)
     return score['compound']
 
-def tokenize_text(text):
-    # Tokenize and remove stopwords
-    text = str(text)
+def clean_tokens(tokens):
     stop_words = set(stopwords.words('english'))
+
+    # Add any additional stop words
+    custom_stop_words = ['said', 'also', 'us', 'one', 'u', 'get', 'year', 'could', 'even','like', 'two', 'say', 'week'
+                         'still','told', 'since','well', 'thats', 'since', 'way', 'many', 'told', 'last', 'first']
+    stop_words.update(custom_stop_words)
+
+    return [lemmatizer.lemmatize(word.lower()) for word in tokens if word.lower() not in stop_words and word.isalpha()]
+
+def tokenize_text(text):
+    # Ensure text is a string
+    text = str(text).lower()  # Convert to lowercase to standardize
+    stop_words = set(stopwords.words('english'))
+    
+    # Tokenize text
     words = word_tokenize(text)
-    return [word for word in words if word not in stop_words]
+    
+    # Remove stopwords and non-alphabetic characters
+    filtered_words = [word for word in words if word.isalpha() and word not in stop_words]
+    
+    return filtered_words
 
 def pos_tagging(text):
     # Tokenize and apply POS tagging
@@ -27,7 +48,7 @@ def pos_tagging(text):
     return pos_tag(words)
 
 def named_entity_recognition(text):
-    # Tokenize, POS tag, and perform NER
+    # Tokenize
     words = word_tokenize(text)
     tags = pos_tag(words)
     tree = ne_chunk(tags)
@@ -42,6 +63,7 @@ def analyze_data(file_path):
 
     # May need to expliore this further
     df['tokens'] = df['article_text'].apply(tokenize_text)
+    df['tokens'] = df['tokens'].apply(clean_tokens)
 
     # Drop the article_text column to get a cleaner result file
     df.drop(columns=['article_text'], inplace=True)
