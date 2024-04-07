@@ -4,12 +4,12 @@ from fin_scraper.items import FinScraperItem
 
 class NewsSpider(scrapy.Spider):
     name = "news"
-    start_urls = [#'https://www.zerohedge.com/', 
-                  #'https://www.cnbc.com/world/',
-                  #'https://www.cnbc.com/personal-finance/',
-                  #'https://www.cnbc.com/investing/',
-                  #'https://www.cnbc.com/economy/',
-                  #'https://www.cnbc.com/finance/',
+    start_urls = ['https://www.zerohedge.com/', 
+                  'https://www.cnbc.com/world/',
+                  'https://www.cnbc.com/personal-finance/',
+                  'https://www.cnbc.com/investing/',
+                  'https://www.cnbc.com/economy/',
+                  'https://www.cnbc.com/finance/',
                   'https://www.ft.com/']
 
     def parse(self, response):
