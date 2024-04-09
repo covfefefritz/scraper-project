@@ -2,7 +2,6 @@ import sys
 import pandas as pd
 import re
 from bs4 import BeautifulSoup
-from nltk.sentiment import SentimentIntensityAnalyzer
 from datetime import date
 
 
