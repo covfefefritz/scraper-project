@@ -8,6 +8,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+import glob
 
 
 lemmatizer = WordNetLemmatizer()
@@ -73,6 +74,22 @@ def analyze_data(file_path):
     analyzed_file_path = file_path.replace('cleaned/news', 'analyzed/news')
     df.to_csv(analyzed_file_path, index=False)
     print(f"Analyzed data saved to {analyzed_file_path}")
+
+
+    #Concatenate all files and overwrite 
+    path = 'Output/analyzed'
+    all_files = glob.glob(path + "/*.csv")
+    li = []
+
+    for filename in all_files:
+        temp = pd.read_csv(filename)
+        li.append(temp)
+
+    df = pd.concat(li, ignore_index=True)
+    # Remove duplicates
+    df.drop_duplicates(subset='title', inplace=True)
+    df.to_csv('Output/news_tokens.csv')
+    print(f"Updated Output/news_tokens.csv")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
