@@ -27,22 +27,20 @@ def clean_text(text):
 def clean_data(file_path):
     # Load the dataset
     df = pd.read_csv(file_path)
+    
     # Remove duplicates
     df.drop_duplicates(inplace=True)
-
     df['article_text'] = df['article_text'].astype(str)
 
     # Handling missing values
-    today = date.today()
-    df_clean = df['article_text'].fillna('No content')
-    df_clean = df['collection_date'].fillna(today)
-
-    # Normalize text
-    df_clean['article_text'] = df['article_text'].apply(clean_text)
+    today = date.today().isoformat()  
+    df['article_text'] = df['article_text'].fillna('No content')
+    df['collection_date'] = df['collection_date'].fillna(today)
+    df['article_text'] = df['article_text'].apply(clean_text)
 
     # Save the cleaned data
     cleaned_file_path = file_path.replace('raw/news', 'cleaned/news')
-    df_clean.to_csv(cleaned_file_path, index=False)
+    df.to_csv(cleaned_file_path, index=False)
     print(f"Cleaned data saved to {cleaned_file_path}")
 
 
