@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+Output/
+cron_log.log
+.streamlit
+fin_scraper/__pycache__
+fin_scraper/spiders/__pycache__
