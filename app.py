@@ -3,11 +3,12 @@ import plotly.express as px
 from datetime import datetime
 import pandas as pd
 import ast
+from streamlit_gsheets import GSheetsConnection
 
 
 
-def load_data(file_path):
-    news = pd.read_csv(file_path, dtype={'collection_date': 'string'})
+def load_data(news):
+    #news = pd.read_csv(file_path, dtype={'collection_date': 'string'})
     news['collection_date'] = pd.to_datetime(news['collection_date'], format='%Y-%m-%d', errors='coerce')
     
     # Check for rows where 'collection_date' could not be parsed and drop them
@@ -68,9 +69,11 @@ def setup_bar_chart_df(df):
     return top_tokens
 
 
+## main 
+conn = st.connection("gsheets", type=GSheetsConnection)
+news = conn.read()
 
-## Begin 
-news = load_data('Output/news_tokens.csv')
+news = load_data(news)
 news = preprocess_data(news, ['nan', 'new', 'would'])
 
 # Explode the list of words into separate rows
@@ -89,9 +92,8 @@ all_time_chart = create_plot(top_tokens_all_time, x='count', y='tokens', title="
 selected_day_chart = create_plot(top_tokens_by_date, x='count', y='tokens', title=f"Token Sentiment Analysis ({reference_date})",
                                  color_scale='Viridis')
 
-
 # Using tabs
-tab1, tab2 = st.tabs(["All time data", "Selected Date Data"])
+tab1, tab2, tab3 = st.tabs(["All time data", "Selected Date Data", "Testing"])
 
 st.markdown("# Python and data analysis practice page 🎈 \n Currently scraping financial news off zerohedge and CNBC and experimenting with the results \n \n Link to the repo: https://github.com/covfefefritz/scraper-project")
 
@@ -102,3 +104,6 @@ with tab1:
 with tab2:
     st.header(f"Top Occurring Words and Their Sentiment Scores ({reference_date})")
     st.plotly_chart(selected_day_chart, use_container_width=True)
+
+with tab3: 
+    st.header(f"Occurences over time")

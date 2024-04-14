@@ -26,7 +26,7 @@ def clean_tokens(tokens):
     # Add any additional stop words
     custom_stop_words = ['said', 'also', 'us', 'one', 'u', 'get', 'year', 'could', 'even','like', 'two', 'say', 'week'
                          'still','told', 'since','well', 'thats', 'since', 'way', 'many', 'told', 'last', 'first', 'much', 
-                         'april', 'take', 'three', 'however', 'make']
+                         'april', 'take', 'three', 'however', 'make', 'would', 'new']
     stop_words.update(custom_stop_words)
 
     return [lemmatizer.lemmatize(word.lower()) for word in tokens if word.lower() not in stop_words and word.isalpha()]
