@@ -39,3 +39,10 @@ Jupyter Notebook
     and only exclude the credentials file. 
 
     The crawler is now fully automated with the use of cron, it scrapes, clean, analyze, concatenate, push to gsheets, and app.py reads from the shared google sheet. 
+
+###### 2024-04-15
+  Added two more graphs, sentiment and occurence of words over time! 
+
+  Next task: increase the scraper range
+
+  
