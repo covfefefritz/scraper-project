@@ -29,3 +29,13 @@ Sentiment Analysis:
 
 Jupyter Notebook
   - Created for initial data analysis before starting to work with visualization tools like Dash
+
+  ##### 2024-04-14
+  Removed jupyter notebook 
+    I decided to use streamlit for visualization, i can run the page locally in my browser to fill the same need jupyter notebook had, but I can also deploy the app to showcase it if I wish to do so. 
+
+    Streamlit implementation of app.py, this should probably be broken into different .py scripts as it grows. After I got it working I refactored the code into smaller functions
+    I created another script that pushes the generated file to a shared google spreadsheet using the google API, this script is not in the directory for privacy reasons, perhaps I'll add it later 
+    and only exclude the credentials file. 
+
+    The crawler is now fully automated with the use of cron, it scrapes, clean, analyze, concatenate, push to gsheets, and app.py reads from the shared google sheet. 
