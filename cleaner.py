@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from bs4 import BeautifulSoup
 from datetime import date
+import glob
 
 
 
@@ -21,13 +22,21 @@ def clean_text(text):
     text = text.lower()
     text = re.sub(r'\d+', '', text)
     text = re.sub(r'[^\w\s]', '', text)
+
+    # Remove strings that are too long or don't contain enough spaces
+    if len(text) <= 50000 and text.count(' ') >= 5:
+        # pass through
+        text = text
+    else:
+        # Optional: print or log the filtered out content
+        print(f"Filtered out: {text[:50]}...")
     
     return text
 
 def clean_data(file_path):
     # Load the dataset
     df = pd.read_csv(file_path)
-    
+
     # Remove duplicates
     df.drop_duplicates(inplace=True)
     df['article_text'] = df['article_text'].astype(str)
@@ -49,6 +58,5 @@ if __name__ == "__main__":
         print("Usage: python cleaner.py <filename>")
         sys.exit(1)
     
-    # Assuming the script and the Output folder are in the same directory
     file_path = sys.argv[1]
     clean_data(file_path)

@@ -3,12 +3,12 @@ import pandas as pd
 from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk import pos_tag, ne_chunk
 from nltk.tree import Tree
-import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 import glob
+import ast
 
 
 lemmatizer = WordNetLemmatizer()
@@ -26,10 +26,12 @@ def clean_tokens(tokens):
     # Add any additional stop words
     custom_stop_words = ['said', 'also', 'us', 'one', 'u', 'get', 'year', 'could', 'even','like', 'two', 'say', 'week'
                          'still','told', 'since','well', 'thats', 'since', 'way', 'many', 'told', 'last', 'first', 'much', 
-                         'april', 'take', 'three', 'however', 'make', 'would', 'new']
+                         'april', 'take', 'three', 'however', 'make', 'would', 'new', 'bbc', 'year']
     stop_words.update(custom_stop_words)
+     
+    clean_tokens =[lemmatizer.lemmatize(word.lower()) for word in tokens if word.lower() not in stop_words and word.isalpha()]
 
-    return [lemmatizer.lemmatize(word.lower()) for word in tokens if word.lower() not in stop_words and word.isalpha()]
+    return clean_tokens
 
 def tokenize_text(text):
     # Ensure text is a string
@@ -87,7 +89,16 @@ def analyze_data(file_path):
 
     df = pd.concat(li, ignore_index=True)
     # Remove duplicates
-    df.drop_duplicates(subset='title', inplace=True)
+
+    # Filter out non-empty titles and drop duplicates from them
+    non_empty_titles = df[df['title'] != ''].drop_duplicates(subset='title')
+
+    # Until i get 
+    empty_titles = df[df['title'] == '']
+    # Concatenate the two dataframes back together
+    df = pd.concat([non_empty_titles, empty_titles], ignore_index=True)
+
+    
     df.to_csv('Output/news_tokens.csv')
     print(f"Updated Output/news_tokens.csv")
 

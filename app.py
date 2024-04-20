@@ -116,7 +116,7 @@ with tab1:
     st.plotly_chart(all_time_chart, use_container_width=True)
 
 with tab2:
-    st.header(f"Top Occurring Words and Their Sentiment Scores ({reference_date})")
+    st.header(f"Top Occurring Words and Their Sentiment Scores ({reference_date}) \n see sidebar!")
     st.plotly_chart(selected_day_chart, use_container_width=True)
 
 with tab3: 
